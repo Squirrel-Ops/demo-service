@@ -1,0 +1,28 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Get YC IAM token
+        id: yc-iam
+        uses: yc-actions/yc-iam-token@5966c246d18b1f8bd02e98f7cfeb57f880f6afdc # v1
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+      - name: Login to Container Registry
+        run: |
+          echo "using registry crp0demo1234567890ab"
+          TOKEN_B64="${{ steps.yc-iam.outputs.token }}"
+          echo "token length: ${#TOKEN_B64}"
