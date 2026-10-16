@@ -1,9 +1,9 @@
-name: release
+name: "release"
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -12,16 +12,16 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout sources
+      - name: "Checkout sources"
         uses: actions/checkout@v4
 
-      - name: Get YC IAM token
+      - name: "Get YC IAM token"
         id: yc-iam
-        uses: yc-actions/yc-iam-token@5966c246d18b1f8bd02e98f7cfeb57f880f6afdc # v1
+        uses: yc-actions/yc-iam-token@f4daf19710c2b773d90c1a2b5fa7cb3750f315fb # v1
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
 
-      - name: Login to Container Registry
+      - name: "Login to Container Registry"
         run: |
           echo "using registry crp0demo1234567890ab"
           TOKEN_B64="${{ steps.yc-iam.outputs.token }}"
